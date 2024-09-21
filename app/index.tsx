@@ -6,10 +6,11 @@ import {
   View,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
-import {Amplify, Hub, Auth, DataStore} from 'aws-amplify';
+import {Amplify, Hub, Auth } from 'aws-amplify';
+import {DataStore} from '@aws-amplify/datastore';
 //import awsconfig from './src/aws-exports';
-import HomeScreen from '@/components/HomeScreen';
-import LoginPage from '@/components/LoginPage';
+import LoginPage from './(tabs)/LoginPage';
+import HomeScreen from './(tabs)/HomeScreen';
 
 Amplify.configure({
   //...awsconfig,

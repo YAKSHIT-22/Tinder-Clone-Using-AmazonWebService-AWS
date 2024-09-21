@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Image, Text, Pressable,Alert} from 'react-native';
 import {Auth, DataStore} from 'aws-amplify';
-import {User, WaitlingList, Matches} from './models';
+import {User, WaitlingList, Matches} from '../models';
 import moment from 'moment';
 
 const DisplayMessage = ({loverSub, setLoverSub, lastMessage, updated}) => {

@@ -14,17 +14,18 @@ import {
   ActivityIndicator,
   BackHandler,
 } from 'react-native';
-import {Auth, DataStore, Storage} from 'aws-amplify';
-import {User, Feedback} from './models/';
+import {Auth, Storage} from 'aws-amplify';
+import {DataStore} from '@aws-amplify/datastore';
+import {User, Feedback} from '../../models/';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {Picker} from '@react-native-picker/picker';
 import moment from 'moment';
-import FeedbackForm from './FeedbackForm';
+import FeedbackForm from '../../components/FeedbackForm';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import Card from './Card';
+import Card from '../../components/Card';
 
 const ProfileScreen = ({setIsNew, setScreen,isNew}) => {
   const [Name, setName] = useState('');
@@ -196,257 +197,110 @@ const ProfileScreen = ({setIsNew, setScreen,isNew}) => {
   const showImage = () => {
     if (Uri === '') {
       return (
-        <View style={styles.NoUser}>
+        <View className="w-72 h-72 items-center justify-center bg-white rounded-full mt-10">
           <FontAwesome name="user" size={300} color="grey" />
         </View>
       );
     }
     if (isPick) {
-      return <Image source={{uri: Uri}} style={styles.s3image} />;
+      return <Image source={{uri: Uri}} className="w-72 h-72 rounded-full mt-10" />;
     }
     const url = `https://lpu549be2fd8f0f4ba1b6d780e258bd43bc71012-staging.s3.ap-south-1.amazonaws.com/public/${Uri}`;
-    console.log(url);
-    return <Image source={{uri: url}} style={styles.s3image} />;
+    return <Image source={{uri: url}} className="w-72 h-72 rounded-full mt-10" />;
   };
 
   if (zoom) {
     return (
       <>
-          <Card user={user} />
+        <Card user={user} />
         <MaterialCommunityIcons
           name="card-text"
           size={35}
           color="grey"
-          style={styles.card1}
-          onPress={() => {
-            setZoom(!zoom);
-          }}
+          className="absolute right-8 top-24 bg-white rounded-lg p-1"
+          onPress={() => setZoom(!zoom)}
         />
       </>
     );
   }
+
   if (isFeedback) {
     return <FeedbackForm setIsFeedback={setIsFeedback} />;
   }
+
   if (user === null) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View className="flex-1 justify-center items-center">
         <ActivityIndicator />
       </View>
     );
   }
   return (
-    <ScrollView style={styles.ProfileContainer}>
-      <View alignItems="center" style={{width: '100%', height: '100%'}}>
-        <Text style={styles.textt}>Profile Photo</Text>
+    <ScrollView className="bg-white w-full h-full">
+      <View className="items-center w-full h-full">
+        <Text className="text-lg mt-5 font-bold">Profile Photo</Text>
         <MaterialCommunityIcons
           name="card-text"
           size={35}
           color="grey"
-          style={styles.card}
-          onPress={() => {
-            setZoom(!zoom);
-          }}
+          className="absolute right-8 top-4 p-1"
+          onPress={() => setZoom(!zoom)}
         />
-        <SkeletonPlaceholder style={styles.skeleton}>
-          <View style={styles.imageContainer}></View>
+        <SkeletonPlaceholder>
+          <View className="w-72 h-72 rounded-full"></View>
         </SkeletonPlaceholder>
         {showImage()}
         <Pressable onPress={AddImage}>
-          <Ionicons name="add-circle" size={35} color="#F76C6B" />
+          <Ionicons name="add-circle" size={35} color="#F76C6B" className="mt-5" />
         </Pressable>
-        <Text style={styles.textt}>Name</Text>
-        <TextInput style={styles.name} value={Name} onChangeText={setName} />
-        <Text style={styles.textt}>Age</Text>
+        <Text className="text-lg mt-5 font-bold">Name</Text>
         <TextInput
-          style={styles.age}
+          className="w-11/12 p-2 h-16 mt-2 bg-gray-400 text-black text-2xl font-bold rounded-lg shadow-lg"
+          value={Name}
+          onChangeText={setName}
+        />
+        <Text className="text-lg mt-5 font-bold">Age</Text>
+        <TextInput
+          className="w-11/12 p-2 h-12 mt-2 bg-gray-400 text-black text-xl rounded-lg shadow-lg"
           value={Age}
           onChangeText={setAge}
           keyboardType="numeric"
         />
-        <Text style={styles.textt}>Gender</Text>
+        <Text className="text-lg mt-5 font-bold">Gender</Text>
         <Picker
           label="Gender"
-          style={styles.gender}
+          className="w-11/12 p-2 h-12 mt-2 bg-gray-400 text-black text-xl rounded-lg shadow-lg"
           selectedValue={Gender}
           onValueChange={itemValue => setGender(itemValue)}>
           <Picker.Item label="Female" value="FEMALE" />
           <Picker.Item label="Male" value="MALE" />
         </Picker>
-        <Text style={styles.textt}>Bio</Text>
+        <Text className="text-lg mt-5 font-bold">Bio</Text>
         <TextInput
-          style={styles.bio}
+          className="w-11/12 p-2 h-24 mt-2 bg-gray-400 text-black text-xl rounded-lg shadow-lg"
           value={Bio}
           onChangeText={setBio}
           multiline
-          numberOfLines={3}
         />
-        <TouchableOpacity style={styles.button} onPress={Submit}>
-          <Text style={styles.text}>
-            {isUpdating ? 'Saving...' : 'Save Profile'}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setIsFeedback(!isFeedback)}>
-          <Text style={styles.text}>Feedback</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={logOut}>
-          <Text style={styles.text}>Log Out</Text>
-        </TouchableOpacity>
+        <Pressable
+          onPress={Submit}
+          disabled={isUpdating}
+          className="w-11/12 mt-5 bg-[#F76C6B] p-3 rounded-lg">
+          {isUpdating ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text className="text-white text-xl font-bold text-center">Update</Text>
+          )}
+        </Pressable>
+        <Pressable
+          onPress={logOut}
+          className="w-11/12 mt-5 bg-gray-500 p-3 rounded-lg">
+          <Text className="text-white text-xl font-bold text-center">Log Out</Text>
+        </Pressable>
       </View>
-      {isUpdating && (
-        <View style={styles.loading}>
-          <ActivityIndicator size="large" />
-        </View>
-      )}
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
 
-  card1: {
-    position: 'absolute',
-    right: 30,
-    top: 95,
-    paddingHorizontal: 2,
-    elevation:20,
-    backgroundColor:'white',
-    borderRadius:10,
-  },
-  card: {
-    position: 'absolute',
-    right: 30,
-    top: 15,
-    padding: 5,
-  },
-  loading: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF88',
-  },
-  NoUser: {
-    width: 300,
-    height: 300,
-    alignItems: 'center',
-    position: 'absolute',
-    backgroundColor: 'red',
-    top: 10,
-    borderRadius: 150,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    top: 50,
-    backgroundColor: 'white',
-  },
-  skeleton: {
-    position: 'relative',
-  },
-  imageContainer: {
-    height: 300,
-    width: 300,
-    borderRadius: 150,
-  },
-  ProfileContainer: {
-    backgroundColor: 'white',
-    width: '100%',
-    height: '100%',
-  },
-  profileFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  s3image: {
-    width: 300,
-    height: 300,
-    borderWidth: 1,
-    padding: 1,
-    borderRadius: 150,
-    position: 'absolute',
-    top: 50,
-  },
-  name: {
-    width: '92%',
-    padding: 10,
-    height: 60,
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'black',
-    backgroundColor: '#b5b5b5',
-    color: 'black',
-    fontSize: 25,
-    fontWeight: 'bold',
-    elevation: 10,
-  },
-  age: {
-    width: '92%',
-    padding: 10,
-    height: 50,
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'black',
-    backgroundColor: '#b5b5b5',
-    color: 'black',
-    fontSize: 20,
-    elevation: 10,
-  },
-  gender: {
-    width: '92%',
-    padding: 10,
-    height: 50,
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'black',
-    backgroundColor: '#b5b5b5',
-    color: 'black',
-    fontSize: 20,
-    elevation: 10,
-  },
-
-  bio: {
-    width: '92%',
-    padding: 10,
-    height: 100,
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'black',
-    backgroundColor: '#b5b5b5',
-    color: 'black',
-    fontSize: 20,
-    elevation: 10,
-  },
-  button: {
-    width: 140,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 5,
-    borderRadius: 30,
-    elevation: 3,
-    backgroundColor: '#F76C6B',
-    margin: 10,
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
-  textt: {
-    width: '92%',
-    marginTop: 20,
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-});
 export default ProfileScreen;

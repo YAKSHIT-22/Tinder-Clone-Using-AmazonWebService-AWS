@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Image, StyleSheet, Text, Alert} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Auth, DataStore} from 'aws-amplify';
-import {User, WaitlingList, Matches, ChatUsers} from './models';
+import {User, WaitlingList, Matches, ChatUsers} from '../models';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 const Card2 = ({user}) => {

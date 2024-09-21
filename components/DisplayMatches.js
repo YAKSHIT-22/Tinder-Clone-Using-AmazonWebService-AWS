@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, Image, Pressable,Alert} from 'react-native';
 import {Auth, DataStore} from 'aws-amplify';
-import {User, WaitlingList, Matches} from './models';
+import {User, WaitlingList, Matches} from '../models';
 const DisplayMatches = ({sub, setLoverSub}) => {
   const [currentUser, setCurrentUser] = useState(null);
 

@@ -22,9 +22,9 @@ import {
   ChatUsers,
   ChatData,
   Block,
-} from './models';
+} from '../models';
 import ChatMessage from './ChatMessage';
-import {onCreateChatData, onDeleteBlock, onCreateBlock} from './models/schema';
+import {onCreateChatData, onDeleteBlock, onCreateBlock} from '../models/schema';
 
 const Messanger = ({setIsChatting, setLoverSub, from, to}) => {
   const [currentUser, setCurrentUser] = useState(null);

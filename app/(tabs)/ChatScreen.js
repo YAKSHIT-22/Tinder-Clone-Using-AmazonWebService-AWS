@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View,BackHandler,Alert} from 'react-native';
-import {Auth, DataStore, API} from 'aws-amplify';
-import {User, WaitlingList, Matches, ChatUsers} from './models';
-import DisplayMatches from './DisplayMatches';
-import DisplayMessage from './DisplayMessage';
-import Messanger from './Messanger';
-import {onUpdateChatUsers,onCreateChatUsers} from './models/schema';
+import {Auth, API} from 'aws-amplify';
+import {DataStore} from '@aws-amplify/datastore';
+import {User, WaitlingList, Matches, ChatUsers} from '../../models';
+import DisplayMatches from '../../components/DisplayMatches';
+import DisplayMessage from '../../components/DisplayMessage';
+import Messanger from '../../components/Messanger';
+import {onUpdateChatUsers,onCreateChatUsers} from '../../models/schema';
 
 const ChatScreen = ({setScreen}) => {
   const [matches, setMatches] = useState([]);

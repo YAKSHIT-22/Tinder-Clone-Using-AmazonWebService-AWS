@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Feedback} from './models';
+import {Feedback} from '../models';
 import {Auth, DataStore, Storage} from 'aws-amplify';
 import {
   StyleSheet,

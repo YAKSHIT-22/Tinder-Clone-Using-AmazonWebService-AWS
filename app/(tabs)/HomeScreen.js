@@ -8,15 +8,17 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-import DisplayScreen from '../app/(tabs)/DisplayScreen';
-import MatchScreen from '../app/(tabs)/MatchScreen';
-import ChatScreen from '../app/(tabs)/ChatScreen';
-import ProfileScreen from '../app/(tabs)/ProfileScreen';
+import DisplayScreen from './DisplayScreen';
+import MatchScreen from './MatchScreen';
+import ChatScreen from './ChatScreen';
+import ProfileScreen from './ProfileScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {Amplify, Hub, Auth, DataStore, sceneActions} from 'aws-amplify';
-import {User} from './models/';
+import {Auth} from 'aws-amplify';
+import {Hub} from '@aws-amplify/core';
+import {DataStore} from '@aws-amplify/datastore';
+import {User} from '../../models/';
 
 const HomeScreen = ({sync}) => {
   const [screen, setScreen] = useState('display');

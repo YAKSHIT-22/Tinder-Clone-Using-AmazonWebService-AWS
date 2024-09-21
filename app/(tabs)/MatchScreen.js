@@ -9,9 +9,10 @@ import {
   ActivityIndicator,
   BackHandler,
 } from 'react-native';
-import {Auth, DataStore} from 'aws-amplify';
-import {User, WaitlingList, Matches, ChatUsers} from './models';
-import Card2 from './Card2';
+import {Auth} from 'aws-amplify';
+import {DataStore} from '@aws-amplify/datastore';
+import {User, WaitlingList, Matches, ChatUsers} from '../../models';
+import Card2 from '../../components/Card2';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
